@@ -6,6 +6,7 @@ use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::{
     env, near_bindgen, AccountId, Balance, CryptoHash, PanicOnDefault, Promise, PromiseOrValue,
 };
+use crate::internal::*;
 
 pub use crate::metadata::*;
 pub use crate::mint::*;
@@ -13,6 +14,7 @@ pub use crate::nft_core::*;
 pub use crate::approval::*;
 pub use crate::royalty::*;
 
+mod internal;
 mod approval; 
 mod enumeration; 
 mod metadata; 
@@ -107,6 +109,20 @@ impl Contract {
     this
   }
 
+
+  /*
+    -token_id: the ID of the token you're minting (as a string).
+    -metadata: the metadata for the token that you're minting (of type TokenMetadata which is found in the metadata.rs file).
+    -receiver_id: specifies who the owner of the token will be.
+    -Behind the scenes, the function will:
+
+    -Calculate the initial storage before adding anything to the contract
+    -Create a Token object with the owner ID
+    -Link the token ID to the newly created token object by inserting them into the tokens_by_id field.
+    -Link the token ID to the passed in metadata by inserting them into the token_metadata_by_id field.
+    -Add the token ID to the list of tokens that the owner owns by calling the internal_add_token_to_owner function.
+    -Calculate the final and net storage to make sure that the user has attached enough NEAR to the call in order to cover those costs.
+  */
   #[payable]
   pub fn nft_mint(
     &mut self,
