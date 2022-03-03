@@ -1,1 +1,0 @@
-# Follwing Near tutorial
