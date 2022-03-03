@@ -1,0 +1,10 @@
+{
+  "name": "nft-tutorial",
+  "version": "1.0.0",
+  "description": "Zero to Hero NFT Tutorial on Near Blockchain",
+  "author": "Simon Busch",
+  "license": "ISC",
+  "scripts": {
+    "build": "cd nft-contract && bash build.sh && cd ../.."
+  }
+}

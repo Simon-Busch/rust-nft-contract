@@ -6,40 +6,26 @@ const GAS_FOR_NFT_TRANSFER_CALL: Gas = Gas(25_000_000_000_000 + GAS_FOR_RESOLVE_
 const NO_DEPOSIT: Balance = 0;
 
 pub trait NonFungibleTokenCore {
-  //transfers an NFT to a receiver ID
-  fn nft_transfer(
-    &mut self,
-    receiver_id: AccountId,
-    token_id: TokenId,
-    memo: Option<String>,
-  );
+    //transfers an NFT to a receiver ID
+    fn nft_transfer(
+        &mut self,
+        receiver_id: AccountId,
+        token_id: TokenId,
+        memo: Option<String>,
+    );
 
-  //transfers an NFT to a receiver and calls a function on the receiver ID's contract
-  /// Returns `true` if the token was transferred from the sender's account.
-  fn nft_transfer_call(
-    &mut self,
-    receiver_id: AccountId,
-    token_id: TokenId,
-    memo: Option<String>,
-    msg: String,
-  );
+    //transfers an NFT to a receiver and calls a function on the receiver ID's contract
+    /// Returns `true` if the token was transferred from the sender's account.
+    fn nft_transfer_call(
+        &mut self,
+        receiver_id: AccountId,
+        token_id: TokenId,
+        memo: Option<String>,
+        msg: String,
+    );
 
-   //get information about the NFT token passed in
-   fn nft_token(&self, token_id: TokenId) -> Option<JsonToken> {
-    //if there is some token ID in the tokens_by_id collection
-    if let Some(token) = self.tokens_by_id.get(&token_id) {
-      //we'll get the metadata for that token
-      let metadata = self.token_metadata_by_id.get(&token_id).unwrap();
-      //we return the JsonToken (wrapped by Some since we return an option)
-      Some(JsonToken {
-        token_id,
-        owner_id: token.owner_id,
-        metadata,
-      })
-    } else { //if there wasn't a token ID in the tokens_by_id collection, we return None
-      None
-    }
-  }
+    //get information about the NFT token passed in
+    fn nft_token(&self, token_id: TokenId) -> Option<JsonToken>;
 }
 
 #[ext_contract(ext_non_fungible_token_receiver)]
@@ -115,10 +101,20 @@ impl NonFungibleTokenCore for Contract {
     }
 
     //get the information for a specific token ID
-    fn nft_token(&self, token_id: TokenId) {
-        /*
-            FILL THIS IN
-        */
+    fn nft_token(&self, token_id: TokenId) -> Option<JsonToken> {
+        //if there is some token ID in the tokens_by_id collection
+        if let Some(token) = self.tokens_by_id.get(&token_id) {
+            //we'll get the metadata for that token
+            let metadata = self.token_metadata_by_id.get(&token_id).unwrap();
+            //we return the JsonToken (wrapped by Some since we return an option)
+            Some(JsonToken {
+                token_id,
+                owner_id: token.owner_id,
+                metadata,
+            })
+        } else { //if there wasn't a token ID in the tokens_by_id collection, we return None
+            None
+        }
     }
 }
 
