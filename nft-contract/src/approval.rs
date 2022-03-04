@@ -56,10 +56,10 @@ impl NonFungibleTokenCore for Contract {
             &token.owner_id,
             "Predecessor must be the token owner."
         );
- 
+
         //get the next approval ID if we need a new approval
         let approval_id: u64 = token.next_approval_id;
-     
+
         //check if the account has been approved already for this token
         let is_new_approval = token
             .approved_account_ids
