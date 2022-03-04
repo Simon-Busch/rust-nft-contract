@@ -14,8 +14,8 @@ pub trait NonFungibleTokenCore {
         memo: Option<String>,
     );
 
-    //transfers an NFT to a receiver and calls a function on the receiver ID's contract
-    /// Returns `true` if the token was transferred from the sender's account.
+    // transfers an NFT to a receiver and calls a function on the receiver ID's contract
+    // Returns `true` if the token was transferred from the sender's account.
     fn nft_transfer_call(
         &mut self,
         receiver_id: AccountId,
@@ -30,7 +30,7 @@ pub trait NonFungibleTokenCore {
 
 #[ext_contract(ext_non_fungible_token_receiver)]
 trait NonFungibleTokenReceiver {
-    //Method stored on the receiver contract that is called via cross contract call when nft_transfer_call is called
+    // Method stored on the receiver contract that is called via cross contract call when nft_transfer_call is called
     /// Returns `true` if the token should be returned back to the sender.
     fn nft_on_transfer(
         &mut self,
