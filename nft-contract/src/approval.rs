@@ -45,7 +45,7 @@ impl NonFungibleTokenCore for Contract {
             assert at least one yocto for security reasons - this will cause a redirect to the NEAR wallet.
             The user needs to attach enough to pay for storage on the contract
         */
-        assert_at_least_one_yocto();
+        assert_at_least_one_yocto();  // defined in internal.rs
     
         //get the token object from the token ID
         let mut token = self.tokens_by_id.get(&token_id).expect("No token");
